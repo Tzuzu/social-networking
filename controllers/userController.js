@@ -12,6 +12,8 @@ module.exports = {
     async getSingleUser(req, res) {
       try {
         const user = await User.findOne({ _id: req.params.userId })
+          .populate("thoughts")
+          .populate("friends")
           .select('-__v');
   
         if (!user) {
@@ -69,13 +71,39 @@ module.exports = {
 
     async addFriend(req, res) {
         try {
-            const user = await User.findOne({ _id: req.params.userId })
-
-        if (!user) {
-            return res.status(404).json({ message: 'No User with that ID' });
+            const user = await User.findOneAndUpdate(
+                { _id: req.params.userId },
+                { $addToSet: { friends: req.params.friendId } },
+                { runValidators: true, new: true }
+            );
+    
+            if (!user) {
+                return res.status(404).json({ message: 'No user with that ID' });
+            }
+    
+            res.json({ message: 'Friend Added!' })
+            } catch (err) {
+            res.status(500).json(err);
         }
-        }
-    }
+    },
 
     // DELETE to remove a friend from a user's friend list
+
+    async deleteFriend(req, res) {
+        try {
+            const user = await User.findOneAndUpdate(
+                { _id: req.params.userId },
+                { $pull: { friends: req.params.friendId } },
+                { new: true }
+            );
+    
+            if (!user) {
+                return res.status(404).json({ message: 'No user with that ID' });
+            }
+    
+            res.json({ message: 'Friend Deleted!' })
+            } catch (err) {
+            res.status(500).json(err);
+        }
+    }
   };
