@@ -34,13 +34,23 @@ module.exports = {
     },
     // Update a user
     async updateUser(req, res) {
-        const user = await User.findOne({ _id: req.params.userId });
+        try {
+        const user = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $set: req.body},
+            { runValidators: true, new:true}
+            );
 
         if (!user) {
             return res.status(404).json({ message: 'No user with that ID' })
         }
+        res.json(user);
+    }
+    catch (err){
+        res.status(500).json(err)
+    }
     },
-    // Delete a user and associated apps
+    // Delete a User
     async deleteUser(req, res) {
         try {
         const user = await User.findOneAndDelete({ _id: req.params.userId });
@@ -49,8 +59,7 @@ module.exports = {
             return res.status(404).json({ message: 'No user with that ID' });
         }
 
-        await Application.deleteMany({ _id: { $in: user.applications } });
-        res.json({ message: 'User and associated apps deleted!' })
+        res.json({ message: 'User deleted!' })
         } catch (err) {
         res.status(500).json(err);
         }
