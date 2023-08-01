@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const { Schema, model} = require('mongoose');
 
 const userSchema = new Schema({
     username: {
@@ -31,10 +31,12 @@ const userSchema = new Schema({
     },
 });
 
+// Gives an error
+
 userSchema.virtual('friendCount').get(function () {
     return this.friends.length;
 })
 
-const User = model('user', userSchema);
+const User = model('User', userSchema);
 
 module.exports = User;

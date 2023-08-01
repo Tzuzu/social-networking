@@ -11,6 +11,6 @@ app.use(routes);
 
 db.once("open", () => {
     app.listen(PORT, () => {
-        console.log(`Connection successful! Not running on port ${PORT}!`)
+        console.log(`Connection successful! Now running on port ${PORT}!`)
     });
 });
