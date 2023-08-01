@@ -2,15 +2,19 @@ const mongoose = require('mongoose');
 
 const userSchema = new Schema({
     username: {
-        type: String.trim(), 
+        type: String, 
         unique: true,
         required: true,
+        trim: true,
     },
     email: {
         type: String,
         unique: true,
         required: true, 
-
+        match: [
+            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+            "Please use a valid email address",
+        ],
     },
     thoughts: [{
         type: Schema.Types.ObjectId,
@@ -20,6 +24,11 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     }
+},
+{
+    toJSON: {
+        virtuals: true,
+    },
 });
 
 userSchema.virtual('friendCount').get(function () {
