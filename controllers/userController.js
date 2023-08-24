@@ -1,4 +1,4 @@
-const { User, Thought } = require('../models')
+const { User } = require('../models')
 
 module.exports = {
 
@@ -45,7 +45,7 @@ module.exports = {
     },
 
     // Update a user
-    
+
     async updateUser(req, res) {
         try {
         const user = await User.findOneAndUpdate(
