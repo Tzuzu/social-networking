@@ -1,4 +1,4 @@
-const { User, Thought } = require('../models');
+const { Thought } = require('../models');
 
 // /api/thoughts
 
@@ -38,7 +38,7 @@ module.exports = {
             console.log(req.body);
             try {
                 const thought = await Thought.create(req.body);
-                // Not needed?
+                // Not needed
                 // const user = await User.findOneAndUpdate(
                 //     { _id: req.body.userId },
                 //     { $push: { thought: thought.id }},
