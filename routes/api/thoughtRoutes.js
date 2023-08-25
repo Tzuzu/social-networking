@@ -30,7 +30,7 @@ router.route('/:thoughtId').delete(deleteThought);
 
 // Adds a reaction to an existing thought using POST
 
-router.route('/:thoughtId/reactions/:reactionId').post(createReaction);
+router.route('/:thoughtId/reactions').post(createReaction);
 
 // Deletes a reaction to an existing thought using DELETE
 
