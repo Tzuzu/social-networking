@@ -3,6 +3,10 @@ const { Schema } = require('mongoose');
 const reactionSchema = new Schema({
     reactionId: {
         type: Schema.Types.ObjectId,
+        // Help through BCS to remove
+        // default: () => {
+        //     return new Schema.Types.ObjectId
+        // },
     },
     reactionBody: {
         type: String,
